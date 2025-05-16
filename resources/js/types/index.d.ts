@@ -29,6 +29,8 @@ export interface SharedData {
     ziggy: Config & { location: string };
     sidebarOpen: boolean;
     [key: string]: unknown;
+    quizzes?: Quiz[];
+    quiz?: Quiz;
 }
 
 export interface User {
@@ -41,3 +43,12 @@ export interface User {
     updated_at: string;
     [key: string]: unknown; // This allows for additional properties...
 }
+
+export interface Quiz {
+  id: number;
+  title: string;
+  icon: string;
+  color: string;
+  created_at: string,
+  updated_at: string
+};
