@@ -25,14 +25,13 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-        // dd($quizzes);
-        logger("QUizes", $quizes['quizzes']);
 
         foreach ($quizes['quizzes'] as $quiz) {
 
             $quizModel = Quiz::create([
                 'title' => $quiz['title'],
                 'icon' => $quiz['icon'],
+                'color' => $quiz['color'],
             ]);
 
             foreach ($quiz['questions'] as $question) {

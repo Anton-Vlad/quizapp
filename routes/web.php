@@ -1,15 +1,17 @@
 <?php
 
+use App\Http\Controllers\Quizzes\QuizController;
+use App\Http\Middleware\IdentifyUserOrSession;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', function () {
-    return Inertia::render('welcome');
-})->name('home');
+// Route::get('/', function () {
+//     return Inertia::render('welcome');
+// })->name('home');
 
-Route::get('/quizzes', function () {
-    return Inertia::render('quizzes');
-})->name('quizzes');
+Route::middleware([IdentifyUserOrSession::class])->group(function () {
+    Route::get('/', [QuizController::class, 'index'])->name('home');
+});
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {

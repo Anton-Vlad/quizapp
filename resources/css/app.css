@@ -118,6 +118,27 @@
 
     --purple-100: #F6E7FF;
     --purple-600: #A729F5;
+    --purple-bg: var(--purple-100);
+    --purple-fg: var(--purple-600);
+
+    --blue-50: #EBF0FF;
+    --blue-500: #306AFF;
+    --blue-bg: var(--blue-50);
+    --blue-fg: var(--blue-500);
+
+    --green-100: #e0fdef;
+    --green-500: #2FD887;
+    --green-bg: var(--green-100);
+    --green-fg: var(--green-500);
+
+    --orange-50: #FFF5ED;
+    --orange-400: #FF7E35;
+    --orange-bg: var(--orange-50);
+    --orange-fg: var(--orange-400);
+
+    --red-500: #EE5454;
+
+    --question-bg: #fff;
 
     --body-bg-image: url('@images/pattern-background-desktop-light.svg');
 }
@@ -157,6 +178,8 @@
     --sidebar-ring: oklch(0.439 0 0);
 
     --body-bg-image: url('@images/pattern-background-desktop-dark.svg');
+
+    --question-bg: #3B4D66;
 }
 
 @layer base {
@@ -218,6 +241,11 @@ b {
     }
 }
 
+
+.question-list-item {
+    background: var(--question-bg);
+    box-shadow: 0px 16px 40px 0px rgba(143, 160, 193, 0.14);
+}
 
 
 /* Font Face Declarations - Static Fonts */

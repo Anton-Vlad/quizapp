@@ -17,6 +17,7 @@ class Quiz extends Model
     protected $fillable = [
         'title',
         'icon',
+        'color'
     ];
 
     /**
