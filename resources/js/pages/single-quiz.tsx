@@ -4,12 +4,12 @@ import { Quiz, type SharedData } from '@/types';
 import { Head, Link, usePage } from '@inertiajs/react';
 
 export default function SingleQuiz() {
-    const { auth, anonUserId, userId, quiz } = usePage<SharedData>().props;
+    const { auth, anonUserId, userId, quiz, question, quiz_progress } = usePage<SharedData>().props;
 
     const mainTitle = (<>
-        Single Quiz page
+        {question.body}
     </>);
-    const mainDescription = "Pick a subject to get started.";
+    const mainDescription = `Progress: ${quiz_progress[0]} of ${quiz_progress[1]}`;
 
     console.log(quiz)
 

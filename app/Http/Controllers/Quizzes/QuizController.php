@@ -3,16 +3,11 @@
 namespace App\Http\Controllers\Quizzes;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Settings\ProfileUpdateRequest;
 use App\Http\Resources\QuizResource;
+use App\Models\Question;
 use App\Models\Quiz;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Http\RedirectResponse;
+use App\Models\QuizProgress;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Cookie;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -46,13 +41,34 @@ class QuizController extends Controller
         $user_session_id = $request->user_session_id;
         $user_id = $request->user_id;
 
+        $quiz_questions = Question::where('quiz_id', $quiz->id)->get();
+        $current_question = $quiz_questions[0];
+
         QuizResource::withoutWrapping();
+
+        if ($user_session_id) {
+            $current_quiz_progress = QuizProgress::where('session_id', $user_session_id)->where('quiz_id', $quiz->id)->first();
+
+            if (!$current_quiz_progress) {
+
+             
+                QuizProgress::create([
+                    'user_id' => null,
+                    'session_id' => $user_session_id,
+                    'quiz_id' => $quiz->id,
+                    'current_question_id' => $current_question->id,
+                ]);
+            }
+        }
+
         
         return Inertia::render('single-quiz', [
             'session' => $request->session()->get('status'),
             'anonUserId' => $user_session_id, 
             'userId' => $user_id,
-            'quiz' => new QuizResource($quiz)
+            'quiz' => new QuizResource($quiz),
+            'question' => $current_question,
+            'quiz_progress' => [1, count($quiz_questions)]
         ]);
     }
 

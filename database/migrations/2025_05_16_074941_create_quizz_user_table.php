@@ -14,12 +14,17 @@ return new class extends Migration
         Schema::create('quiz_user', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('user_id')->constrained()->nullable();
+            $table->bigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreignId('quiz_id')->constrained();
 
-            $table->string('session_id')->unique()->nullable();
+            $table->string('session_id')->nullable();
+
+            $table->bigInteger('current_question_id');
+            $table->foreign('current_question_id')->references('id')->on('questions')->onDelete('cascade');
 
             $table->integer('score')->nullable();
+            $table->dateTime('finished_at')->nullable();
 
             $table->timestamps();
         });
