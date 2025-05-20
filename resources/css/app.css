@@ -116,6 +116,9 @@
     --sidebar-border: oklch(0.922 0 0);
     --sidebar-ring: oklch(0.87 0 0);
 
+    --gray-50: #F4F6FA;
+    --gray-500: #626C7F;
+
     --purple-100: #F6E7FF;
     --purple-600: #A729F5;
     --purple-bg: var(--purple-100);
@@ -141,6 +144,8 @@
     --question-bg: #fff;
 
     --body-bg-image: url('@images/pattern-background-desktop-light.svg');
+
+    --custom-drop-shadow: 0px 16px 40px 0px rgba(143, 160, 193, 0.14);
 }
 
 .dark {
@@ -207,6 +212,12 @@ b {
     font-style: italic;
 }
 
+.font-preset-3 {
+    font-size: 2.25rem;
+    line-height: 120%;
+    letter-spacing: 0;
+}
+
 .font-preset-4 {
     font-size: 1.75rem;
     line-height: 120%;
@@ -223,7 +234,7 @@ b {
     button {
         width: 48px;
         height: 28px;
-        background-color: var(--purple-600);
+        background-color: var(--main-accent, var(--purple-600));
 
     }
     button span {
@@ -244,7 +255,34 @@ b {
 
 .question-list-item {
     background: var(--question-bg);
-    box-shadow: 0px 16px 40px 0px rgba(143, 160, 193, 0.14);
+    border: 3px solid transparent;
+}
+
+.question-list-item .option-icon {
+    width: 56px;
+    height: 56px;
+    background-color: var(--gray-50);
+    color: var(--gray-500);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 1rem;
+}
+
+.question-list-item.selected-option {
+    border-color: var(--main-accent, var(--purple-600));
+}
+.question-list-item.selected-option .option-icon {
+    background-color: var(--main-accent, var(--purple-600));
+    color: #FFF;
+}
+
+.custom-drop-shadow {
+    box-shadow: var(--custom-drop-shadow);
+}
+
+.main-accent-bg {
+    background-color: var(--main-accent, var(--purple-600));
 }
 
 

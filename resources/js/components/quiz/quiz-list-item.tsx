@@ -10,7 +10,7 @@ interface QuizListItemProps extends React.ComponentProps<'main'> {
 export default function QuizListItem({ quiz }: QuizListItemProps) {
 
     return (
-        <li className="question-list-item mb-4 rounded-lg">
+        <li className="question-list-item mb-4 rounded-3xl">
             <Link href={route('quiz', quiz.id)} className="flex items-center gap-4 p-6">
                 <QuizIcon icon={quiz.icon} color={quiz.color} />
                 <span className="font-preset-4 font-medium">

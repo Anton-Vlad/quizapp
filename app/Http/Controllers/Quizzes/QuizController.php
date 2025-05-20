@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Quizzes;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\QuizResource;
+use App\Models\Answer;
 use App\Models\Question;
 use App\Models\Quiz;
 use App\Models\QuizProgress;
@@ -42,7 +43,8 @@ class QuizController extends Controller
         $user_id = $request->user_id;
 
         $quiz_questions = Question::where('quiz_id', $quiz->id)->get();
-        $current_question = $quiz_questions[0];
+        $current_question = $quiz_questions[4];
+        $current_progress = 1;
 
         QuizResource::withoutWrapping();
 
@@ -51,13 +53,15 @@ class QuizController extends Controller
 
             if (!$current_quiz_progress) {
 
-             
                 QuizProgress::create([
                     'user_id' => null,
                     'session_id' => $user_session_id,
                     'quiz_id' => $quiz->id,
                     'current_question_id' => $current_question->id,
                 ]);
+            } else {
+
+                // $answers = Answer::where('user');
             }
         }
 
@@ -67,8 +71,9 @@ class QuizController extends Controller
             'anonUserId' => $user_session_id, 
             'userId' => $user_id,
             'quiz' => new QuizResource($quiz),
+            
             'question' => $current_question,
-            'quiz_progress' => [1, count($quiz_questions)]
+            'quiz_progress' => [4, count($quiz_questions)]
         ]);
     }
 

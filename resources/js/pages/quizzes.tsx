@@ -12,7 +12,7 @@ export default function Quizzes() {
     const mainDescription = "Pick a subject to get started.";
 
     return (
-        <QuizLayoutTemplate title={mainTitle} description={mainDescription}>
+        <QuizLayoutTemplate title={mainTitle} titleClass="text-6xl font-light" description={mainDescription}>
             <Head title="Quizzes"></Head>
 
             {quizzes?.length ? (

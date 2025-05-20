@@ -1,26 +1,35 @@
 import { QuizHeader } from '@/components/quiz/quiz-header';
-import { Link } from '@inertiajs/react';
-import { ReactElement, useState, type PropsWithChildren } from 'react';
+import { SharedData } from '@/types';
+import { Link, usePage } from '@inertiajs/react';
+import { ReactElement, useEffect, useState, type PropsWithChildren } from 'react';
 
 
 interface QuizLayoutProps {
     name?: string;
     title?: ReactElement,
-    description?: string
+    description?: string,
+    titleClass?: string
 }
 
-export default function QuizLayout({ children, title, description }: PropsWithChildren<QuizLayoutProps>) {
+export default function QuizLayout({ children, title, description, titleClass }: PropsWithChildren<QuizLayoutProps>) {
+    const { quiz } = usePage<SharedData>().props;
 
- 
+    useEffect(() => {
+        if (quiz) {
+            const mainColor = `var(--${quiz.color}-fg)`;
+            document.documentElement.style.setProperty('--main-accent', mainColor);
+        }
+    }, [quiz]);
+
     return (<>
 
-        <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 max-w-[1160px] pt-20 sm:pt-24 min-h-svh font-rubik-variable mb-6">
+        <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 max-w-[1160px] pt-14 sm:pt-18 min-h-svh font-rubik-variable">
 
             <QuizHeader />
 
-            <div className="flex flex-col md:flex-row items-center md:items-start gap-8 md:gap-[126px] pt-20 sm:pt-24">
+            <div className="flex flex-col md:flex-row items-center md:items-start gap-8 md:gap-[126px] pt-14 sm:pt-18">
                 <div className="flex-1 min-w-0">
-                    <h1 className="text-6xl font-light mb-4" style={{marginBottom: '3rem'}}>
+                    <h1 className={titleClass + " mb-4"} style={{ marginBottom: '3rem' }}>
                         {title}
                     </h1>
 
@@ -28,7 +37,7 @@ export default function QuizLayout({ children, title, description }: PropsWithCh
                         {description}
                     </p>
                 </div>
-                
+
                 <div className="flex-1 min-w-0">
                     {children}
                 </div>

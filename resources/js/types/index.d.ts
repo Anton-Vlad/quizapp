@@ -31,6 +31,7 @@ export interface SharedData {
     [key: string]: unknown;
     quizzes?: Quiz[];
     quiz?: Quiz;
+    question?: Question;
 }
 
 export interface User {
@@ -52,3 +53,9 @@ export interface Quiz {
   created_at: string,
   updated_at: string
 };
+
+export interface Question {
+    id: number;
+    body: string;
+    options: string[]
+}
