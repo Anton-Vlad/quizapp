@@ -27,14 +27,14 @@ class QuizController extends Controller
 
         $quizzes = Quiz::orderBy('id', 'asc')->get();
 
-        $quiz = $quizzes[1];
+        // $quiz = $quizzes[1];
         
         return Inertia::render('quizzes', [
             'session' => $request->session()->get('status'),
             'anonUserId' => $user_session_id, 
             'userId' => $user_id, 
             'quizzes' => $quizzes,
-            'quiz' => $quiz
+            // 'quiz' => $quiz
         ]);
     }
 

@@ -1,5 +1,5 @@
 import { Quiz } from "@/types";
-import { QuizIcon } from "./icons/quiz-icon";
+import { QuizIcon } from "./quiz-icon";
 
 
 interface QuizListItemProps extends React.ComponentProps<'main'> {

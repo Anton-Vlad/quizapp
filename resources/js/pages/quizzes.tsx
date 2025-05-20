@@ -6,8 +6,13 @@ import { Head, Link, usePage } from '@inertiajs/react';
 export default function Quizzes() {
     const { auth, anonUserId, userId, quizzes } = usePage<SharedData>().props;
 
+    const mainTitle = (<>
+        Welcome to the<br/> <b>Frontend Quizz!</b>
+    </>);
+    const mainDescription = "Pick a subject to get started.";
+
     return (
-        <QuizLayoutTemplate title={<>Welcome to the<br/> <b>Frontend Quiz!</b></>}>
+        <QuizLayoutTemplate title={mainTitle} description={mainDescription}>
             <Head title="Quizzes"></Head>
 
             {quizzes?.length ? (

@@ -5,10 +5,11 @@ import { ReactElement, useState, type PropsWithChildren } from 'react';
 
 interface QuizLayoutProps {
     name?: string;
-    title?: ReactElement
+    title?: ReactElement,
+    description?: string
 }
 
-export default function QuizLayout({ children, title }: PropsWithChildren<QuizLayoutProps>) {
+export default function QuizLayout({ children, title, description }: PropsWithChildren<QuizLayoutProps>) {
 
  
     return (<>
@@ -23,7 +24,9 @@ export default function QuizLayout({ children, title }: PropsWithChildren<QuizLa
                         {title}
                     </h1>
 
-                    <p className='font-italic font-preset-6 text-muted'>Pick a subject to get started.</p>
+                    <p className='font-italic font-preset-6 text-muted'>
+                        {description}
+                    </p>
                 </div>
                 
                 <div className="flex-1 min-w-0">

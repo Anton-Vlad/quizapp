@@ -1,5 +1,5 @@
 import { usePage } from '@inertiajs/react';
-import { QuizIcon } from '../../components/quiz/icons/quiz-icon';
+import { QuizIcon } from './quiz-icon';
 import { AppThemeToggle } from '../app-theme-toggle';
 import { SharedData } from '@/types';
 
