@@ -11,6 +11,8 @@ use Inertia\Inertia;
 
 Route::middleware([IdentifyUserOrSession::class])->group(function () {
     Route::get('/', [QuizController::class, 'index'])->name('home');
+    Route::get('/quizzes', [QuizController::class, 'index'])->name('quizzes');
+    Route::get('/quiz/{quiz}', [QuizController::class, 'single'])->name('quiz');
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {

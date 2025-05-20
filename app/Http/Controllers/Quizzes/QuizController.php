@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Quizzes;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Settings\ProfileUpdateRequest;
+use App\Http\Resources\QuizResource;
 use App\Models\Quiz;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
@@ -18,23 +19,40 @@ use Inertia\Response;
 class QuizController extends Controller
 {
     /**
-     * Show the user's profile settings page.
+     * Show the user's main page.
      */
     public function index(Request $request): Response
     {
         $user_session_id = $request->user_session_id;
         $user_id = $request->user_id;
 
+        QuizResource::withoutWrapping();
         $quizzes = Quiz::orderBy('id', 'asc')->get();
-
-        // $quiz = $quizzes[1];
         
         return Inertia::render('quizzes', [
             'session' => $request->session()->get('status'),
             'anonUserId' => $user_session_id, 
             'userId' => $user_id, 
-            'quizzes' => $quizzes,
-            // 'quiz' => $quiz
+            'quizzes' => QuizResource::collection($quizzes),
+
+        ]);
+    }
+
+    /**
+     * Show the single quiz page.
+     */
+    public function single(Request $request, Quiz $quiz)
+    {
+        $user_session_id = $request->user_session_id;
+        $user_id = $request->user_id;
+
+        QuizResource::withoutWrapping();
+        
+        return Inertia::render('single-quiz', [
+            'session' => $request->session()->get('status'),
+            'anonUserId' => $user_session_id, 
+            'userId' => $user_id,
+            'quiz' => new QuizResource($quiz)
         ]);
     }
 
