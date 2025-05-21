@@ -10,7 +10,6 @@ class QuizProgress extends Model
     protected $table = 'quiz_user';
 
     protected $fillable = [
-        'session_id',
         'user_id',
         'quiz_id',
         'current_question_id',

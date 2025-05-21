@@ -4,7 +4,7 @@ import { Quiz, type SharedData } from '@/types';
 import { Head, Link, usePage } from '@inertiajs/react';
 
 export default function Quizzes() {
-    const { auth, anonUserId, userId, quizzes } = usePage<SharedData>().props;
+    const { auth, quizzes } = usePage<SharedData>().props;
 
     const mainTitle = (<>
         Welcome to the<br/> <b>Frontend Quizz!</b>

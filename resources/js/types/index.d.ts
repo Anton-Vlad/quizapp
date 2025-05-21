@@ -32,6 +32,7 @@ export interface SharedData {
     quizzes?: Quiz[];
     quiz?: Quiz;
     question?: Question;
+    quiz_progress?: QuizProgress;
 }
 
 export interface User {
@@ -58,4 +59,12 @@ export interface Question {
     id: number;
     body: string;
     options: string[]
+}
+
+export interface QuizProgress {
+    completed: number;
+    current_index: number;
+    current_question: Question;
+    percent: string;
+    total: number;
 }

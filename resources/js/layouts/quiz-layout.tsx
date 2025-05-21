@@ -6,12 +6,14 @@ import { ReactElement, useEffect, useState, type PropsWithChildren } from 'react
 
 interface QuizLayoutProps {
     name?: string;
-    title?: ReactElement,
-    description?: string,
-    titleClass?: string
+    title?: ReactElement;
+    description?: string;
+    titleClass?: string;
+    progressDescription?: string;
+    progressPercent?: string;
 }
 
-export default function QuizLayout({ children, title, description, titleClass }: PropsWithChildren<QuizLayoutProps>) {
+export default function QuizLayout({ children, title, description, titleClass, progressDescription, progressPercent }: PropsWithChildren<QuizLayoutProps>) {
     const { quiz } = usePage<SharedData>().props;
 
     useEffect(() => {
@@ -29,6 +31,10 @@ export default function QuizLayout({ children, title, description, titleClass }:
 
             <div className="flex flex-col md:flex-row items-center md:items-start gap-8 md:gap-[126px] pt-14 sm:pt-18">
                 <div className="flex-1 min-w-0">
+                    {progressDescription ? (<p className='font-italic font-preset-6 text-muted mb-6'>
+                        {progressDescription}
+                    </p>) : ""}
+
                     <h1 className={titleClass + " mb-4"} style={{ marginBottom: '3rem' }}>
                         {title}
                     </h1>
@@ -36,6 +42,10 @@ export default function QuizLayout({ children, title, description, titleClass }:
                     <p className='font-italic font-preset-6 text-muted'>
                         {description}
                     </p>
+                    
+                    {progressPercent ? (<div className="question-progress-bar">
+                        <div className="question-progress-bar__inner" style={{width: progressPercent}}></div>
+                    </div>) : ""}
                 </div>
 
                 <div className="flex-1 min-w-0">

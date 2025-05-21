@@ -18,8 +18,6 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreignId('quiz_id')->constrained();
 
-            $table->string('session_id')->nullable();
-
             $table->bigInteger('current_question_id');
             $table->foreign('current_question_id')->references('id')->on('questions')->onDelete('cascade');
 

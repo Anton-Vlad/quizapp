@@ -5,13 +5,13 @@ import { Head, Link, usePage } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
 
 export default function SingleQuiz() {
-    const { auth, anonUserId, userId, quiz, question, quiz_progress } = usePage<SharedData>().props;
+    const { auth, quiz, question, quiz_progress } = usePage<SharedData>().props;
 
     const mainTitle = (question ? <>
         {question.body}
     </> : <></>);
 
-    const mainDescription = `Progress: ${quiz_progress[0]} of ${quiz_progress[1]}`;
+    const progressDescription = `Question ${quiz_progress?.current_index} of ${quiz_progress?.total}`;
 
     const options = ['A', 'B', 'C', 'D', 'E', 'F'];
     const [selectedOption, setSelectedOption] = useState("");
@@ -23,7 +23,10 @@ export default function SingleQuiz() {
     }
 
     return (
-        <QuizLayoutTemplate title={mainTitle} titleClass="font-preset-3 font-medium" description={mainDescription}>
+        <QuizLayoutTemplate title={mainTitle} titleClass="font-preset-3 font-medium" 
+            progressDescription={progressDescription} 
+            progressPercent={quiz_progress?.percent}
+        >
             <Head title="Quizzes"></Head>
 
             {question?.options ? (
