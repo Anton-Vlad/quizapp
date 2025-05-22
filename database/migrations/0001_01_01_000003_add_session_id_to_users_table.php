@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('session_id');
+            $table->string('session_id')->nullable();
             $table->foreign('session_id')->references('id')->on('sessions')->onDelete('set null');
         });
     }

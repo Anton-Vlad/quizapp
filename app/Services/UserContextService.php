@@ -15,6 +15,11 @@ class UserContextService
             return Auth::user();
         }
 
+        if (!session()->has('initiated')) {
+            session()->put('initiated', true);
+            session()->save();
+        }
+
         $session_id = session()->getId();
 
         // Try finding user by session ID
