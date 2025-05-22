@@ -35,7 +35,7 @@ export default function QuizLayout({ children, title, description, titleClass, p
                         {progressDescription}
                     </p>) : ""}
 
-                    <h1 className={titleClass + " mb-4"} style={{ marginBottom: '3rem' }}>
+                    <h1 className={titleClass + " mb-4"}>
                         {title}
                     </h1>
 

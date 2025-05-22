@@ -28,7 +28,6 @@ class QuizController extends Controller
         $quizzes = Quiz::orderBy('id', 'asc')->get();
 
         return Inertia::render('quizzes', [
-            'session' => session()->getId(),
             'quizzes' => QuizResource::collection($quizzes),
         ]);
     }
@@ -60,15 +59,13 @@ class QuizController extends Controller
 
         if($quiz_progress['is_final']) {
             return Inertia::render('quiz-feedback', [
-                'session' => $request->session()->get('status'),
                 'quiz' => new QuizResource($quiz),
-                'quiz_progress' => $quiz_progress,
-                'quiz_feedback' => $current_quiz_progress
+                'quiz_score' => $current_quiz_progress->score,
+                'quiz_total' => count($quiz_questions),
             ]);
         }
 
         return Inertia::render('single-quiz', [
-            'session' => $request->session()->get('status'),
             'quiz' => new QuizResource($quiz),
 
             'question' => $quiz_progress['current_question'],
@@ -110,7 +107,6 @@ class QuizController extends Controller
         );
 
         return Inertia::render('single-quiz', [
-            'session' => $request->session()->get('status'),
             'quiz' => new QuizResource($quiz),
 
             'question' => $quiz_progress['current_question'],
@@ -141,10 +137,9 @@ class QuizController extends Controller
             $quizService->finishQuiz($current_quiz_progress);
             
             return Inertia::render('quiz-feedback', [
-                'session' => $request->session()->get('status'),
                 'quiz' => new QuizResource($quiz),
-                'quiz_progress' => $quiz_progress,
-                'quiz_feedback' => $current_quiz_progress
+                'quiz_score' => $current_quiz_progress->score,
+                'quiz_total' => count($quiz_questions),
             ]);
         }
 
@@ -155,7 +150,6 @@ class QuizController extends Controller
         );
 
         return Inertia::render('single-quiz', [
-            'session' => $request->session()->get('status'),
             'quiz' => new QuizResource($quiz),
 
             'question' => $quiz_progress['current_question'],

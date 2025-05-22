@@ -64,11 +64,11 @@ export default function SingleQuiz() {
     }
 
     return (
-        <QuizLayoutTemplate title={mainTitle} titleClass="font-preset-3 font-medium"
+        <QuizLayoutTemplate title={mainTitle} titleClass="font-preset-3 font-medium min-h-100"
             progressDescription={progressDescription}
             progressPercent={quiz_progress?.percent}
         >
-            <Head title="Quizzes"></Head>
+            <Head title={quiz?.title + " - Quizzes"}></Head>
 
             {question?.options ? (
                 <ul>
