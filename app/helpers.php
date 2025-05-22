@@ -3,7 +3,9 @@
 use App\Models\User;
 use App\Services\UserContextService;
 
-function currentUser(): User
-{
-    return app(UserContextService::class)->getOrCreateCurrentUser();
+if (!function_exists('getTheCurrentUser')) {
+    function getTheCurrentUser(): User
+    {
+        return app(UserContextService::class)->getOrCreateCurrentUser();
+    }
 }

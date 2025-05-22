@@ -33,6 +33,8 @@ export interface SharedData {
     quiz?: Quiz;
     question?: Question;
     quiz_progress?: QuizProgress;
+    corrent_answer?: string;
+    answer_feedback?: boolean;
 }
 
 export interface User {

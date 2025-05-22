@@ -23,15 +23,6 @@ class Question extends Model
     ];
 
     /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
-    protected $hidden = [
-        'answer',
-    ];
-
-    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>

@@ -224,6 +224,12 @@ b {
     letter-spacing: 0;
 }
 
+.font-preset-5 {
+    font-size: 1.5rem;
+    line-height: 120%;
+    letter-spacing: 0;
+}
+
 .font-preset-6 {
     font-size: 1.25rem;
     line-height: 150%;
@@ -258,6 +264,10 @@ b {
     border: 3px solid transparent;
 }
 
+.question-list-item.disabled {
+    pointer-events: none;
+}
+
 .question-list-item .option-icon {
     min-width: 56px;
     max-width: 56px;
@@ -275,6 +285,22 @@ b {
 }
 .question-list-item.selected-option .option-icon {
     background-color: var(--main-accent, var(--purple-600));
+    color: #FFF;
+}
+
+.question-list-item.selected-option.wrong-option {
+    border-color: var(--red-500)
+}
+.question-list-item.selected-option.wrong-option .option-icon {
+    background-color: var(--red-500);
+    color: #FFF;
+}
+
+.question-list-item.selected-option.correct-option {
+    border-color: var(--green-500)
+}
+.question-list-item.selected-option.correct-option .option-icon {
+    background-color: var(--green-500);
     color: #FFF;
 }
 
@@ -296,7 +322,37 @@ b {
 }
 
 .main-accent-bg {
+    position: relative;
+    overflow: hidden;
+}
+.main-accent-bg > span {
+    position: relative;
+    z-index: 3;
+}
+.main-accent-bg::before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #FFF;
+}
+.main-accent-bg::after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     background-color: var(--main-accent, var(--purple-600));
+    z-index: 1;
+}
+
+.main-accent-bg:hover::after {
+    opacity: 0.5;
 }
 
 

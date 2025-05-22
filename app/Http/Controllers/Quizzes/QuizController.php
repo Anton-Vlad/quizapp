@@ -23,10 +23,10 @@ class QuizController extends Controller
     public function index(Request $request): Response
     {
         QuizResource::withoutWrapping();
-        $user = currentUser();
+        $user = getTheCurrentUser();
 
         $quizzes = Quiz::orderBy('id', 'asc')->get();
-        
+
         return Inertia::render('quizzes', [
             'session' => session()->getId(),
             'quizzes' => QuizResource::collection($quizzes),
@@ -39,7 +39,7 @@ class QuizController extends Controller
     public function single(Request $request, Quiz $quiz, QuizProgressService $quizService)
     {
         QuizResource::withoutWrapping();
-        $user = currentUser();
+        $user = getTheCurrentUser();
 
         $quiz_questions = Question::where('quiz_id', $quiz->id)->get();
 
@@ -54,13 +54,19 @@ class QuizController extends Controller
         }
 
         $quiz_progress = $quizService->getQuizProgress(
-            $current_quiz_progress->current_question_id, 
+            $current_quiz_progress->current_question_id,
             collect($quiz_questions)
         );
 
+        if($quiz_progress['is_final']) {
+            return Inertia::render('quiz-feedback', [
+                'session' => $request->session()->get('status'),
+                'quiz' => new QuizResource($quiz),
+                'quiz_progress' => $quiz_progress,
+                'quiz_feedback' => $current_quiz_progress
+            ]);
+        }
 
-        $answer = null; //Answer::where('user');
-        
         return Inertia::render('single-quiz', [
             'session' => $request->session()->get('status'),
             'quiz' => new QuizResource($quiz),
@@ -70,4 +76,90 @@ class QuizController extends Controller
         ]);
     }
 
+
+    /**
+     * Submit a quiz question answer
+     */
+    public function submit(Request $request, Quiz $quiz, QuizProgressService $quizService)
+    {
+        QuizResource::withoutWrapping();
+        $user = getTheCurrentUser();
+        $validated = $request->validate([
+            'answer' => ['required', 'string'],
+        ], [
+            'answer.required' => 'Please select an answer'
+        ]);
+
+        $quiz_questions = Question::where('quiz_id', $quiz->id)->get();
+        $progress = QuizProgress::where('user_id', $user->id)->where('quiz_id', $quiz->id)->firstOrFail();
+        $quiz_progress = $quizService->getQuizProgress(
+            $progress->current_question_id,
+            collect($quiz_questions)
+        );
+
+        // Store the user's answer
+        Answer::updateOrCreate(
+            [
+                'user_id' => $user->id,
+                'quiz_id' => $quiz->id,
+                'question_id' => $progress->current_question_id,
+            ],
+            [
+                'body' => $validated['answer'],
+            ]
+        );
+
+        return Inertia::render('single-quiz', [
+            'session' => $request->session()->get('status'),
+            'quiz' => new QuizResource($quiz),
+
+            'question' => $quiz_progress['current_question'],
+            'quiz_progress' => $quiz_progress,
+
+            'answer_feedback' => $quiz_progress['current_question']->answer === $validated['answer'],
+            'corrent_answer' => $quiz_progress['current_question']->answer
+        ]);
+    }
+
+    /**
+     * Submit a quiz question answer
+     */
+    public function next(Request $request, Quiz $quiz, QuizProgressService $quizService)
+    {
+        QuizResource::withoutWrapping();
+        $user = getTheCurrentUser();
+
+        $quiz_questions = Question::where('quiz_id', $quiz->id)->get();
+        $current_quiz_progress = QuizProgress::where('user_id', $user->id)->where('quiz_id', $quiz->id)->firstOrFail();
+
+        $quiz_progress = $quizService->getQuizProgress(
+            $current_quiz_progress->current_question_id,
+            collect($quiz_questions)
+        );
+
+        if ($quiz_progress['is_final']) {
+            $quizService->finishQuiz($current_quiz_progress);
+            
+            return Inertia::render('quiz-feedback', [
+                'session' => $request->session()->get('status'),
+                'quiz' => new QuizResource($quiz),
+                'quiz_progress' => $quiz_progress,
+                'quiz_feedback' => $current_quiz_progress
+            ]);
+        }
+
+        $quizService->incrementQuizProgress($current_quiz_progress, $quiz_questions);
+        $quiz_progress = $quizService->getQuizProgress(
+            $current_quiz_progress->current_question_id,
+            collect($quiz_questions)
+        );
+
+        return Inertia::render('single-quiz', [
+            'session' => $request->session()->get('status'),
+            'quiz' => new QuizResource($quiz),
+
+            'question' => $quiz_progress['current_question'],
+            'quiz_progress' => $quiz_progress
+        ]);
+    }
 }
